@@ -99,7 +99,7 @@ function createChildren({ stylesheet, fontSize, fontFamily }) {
   }
 }
 
-function createNativeElement({ node, stylesheet, key, defaultColor, fontFamily, fontSize = 12 }) {
+function createNativeElement({ node, stylesheet, key, defaultColor, fontFamily, fontSize = 12, selectable}) {
   const { properties, type, tagName: TagName, value } = node;
   const startingStyle = { fontFamily, fontSize, height: fontSize + 5 };
   if (type === 'text') {
@@ -107,6 +107,7 @@ function createNativeElement({ node, stylesheet, key, defaultColor, fontFamily, 
       <Text
         key={key}
         style={Object.assign({ color: defaultColor }, startingStyle)}
+        selectable={selectable}
       >
         {value}
       </Text>
@@ -127,19 +128,21 @@ function createNativeElement({ node, stylesheet, key, defaultColor, fontFamily, 
   }
 }
 
-function nativeRenderer({ defaultColor, fontFamily, fontSize }) {
+function nativeRenderer({ defaultColor, fontFamily, fontSize, selectable }) {
   return ({ rows, stylesheet }) => rows.map((node, i) => createNativeElement({
     node,
     stylesheet,
     key: `code-segment-${i}`,
     defaultColor,
     fontFamily,
-    fontSize
+    fontSize,
+    selectable
   }))
 }
 
 
-function NativeSyntaxHighlighter({ 
+function NativeSyntaxHighlighter({
+  selectable,
   fontFamily, 
   fontSize, 
   children, 
@@ -166,7 +169,8 @@ function NativeSyntaxHighlighter({
       renderer={(nativeRenderer({
         defaultColor,
         fontFamily,
-        fontSize
+        fontSize,
+        selectable
       }))}
     >
       {children}
