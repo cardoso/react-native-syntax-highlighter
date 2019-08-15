@@ -124,7 +124,7 @@ function createNativeElement({ node, stylesheet, key, defaultColor, fontFamily, 
       stylesheet
     );
     const children = childrenCreator(node.children, style.color || defaultColor);
-    return <Text key={key} style={style}>{children}</Text>;
+    return <Text key={key} style={style} selectable={selectable}>{children}</Text>;
   }
 }
 
